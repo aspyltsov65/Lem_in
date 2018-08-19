@@ -123,6 +123,33 @@ Lem_in/fast:
 	$(MAKE) -f CMakeFiles/Lem_in.dir/build.make CMakeFiles/Lem_in.dir/build
 .PHONY : Lem_in/fast
 
+algor.o: algor.c.o
+
+.PHONY : algor.o
+
+# target to build an object file
+algor.c.o:
+	$(MAKE) -f CMakeFiles/Lem_in.dir/build.make CMakeFiles/Lem_in.dir/algor.c.o
+.PHONY : algor.c.o
+
+algor.i: algor.c.i
+
+.PHONY : algor.i
+
+# target to preprocess a source file
+algor.c.i:
+	$(MAKE) -f CMakeFiles/Lem_in.dir/build.make CMakeFiles/Lem_in.dir/algor.c.i
+.PHONY : algor.c.i
+
+algor.s: algor.c.s
+
+.PHONY : algor.s
+
+# target to generate assembly for a file
+algor.c.s:
+	$(MAKE) -f CMakeFiles/Lem_in.dir/build.make CMakeFiles/Lem_in.dir/algor.c.s
+.PHONY : algor.c.s
+
 get_next_line.o: get_next_line.c.o
 
 .PHONY : get_next_line.o
@@ -2076,6 +2103,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... Lem_in"
+	@echo "... algor.o"
+	@echo "... algor.i"
+	@echo "... algor.s"
 	@echo "... get_next_line.o"
 	@echo "... get_next_line.i"
 	@echo "... get_next_line.s"

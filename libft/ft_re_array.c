@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_createlist.c                                    :+:      :+:    :+:   */
+/*   ft_re_array.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apyltsov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/10 22:57:32 by apyltsov          #+#    #+#             */
-/*   Updated: 2018/05/10 22:57:34 by apyltsov         ###   ########.fr       */
+/*   Created: 2018/08/16 21:13:45 by apyltsov          #+#    #+#             */
+/*   Updated: 2018/08/16 21:13:48 by apyltsov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_createlist(t_list **list, void *content)
+void	ft_re_array(int **way, int len)
 {
-	t_list	*time;
-	t_list	*elem;
+	int	*ar;
+	int	j;
 
-	time = *list;
-	elem = (t_list *)ft_memalloc(sizeof(t_list));
-	elem->content = ft_strdup(content);
-	elem->next = NULL;
-	if (time == NULL)
-		*list = elem;
-	else
-	{
-		while (time->next)
-			time = time->next;
-		time->next = elem;
-	}
+	if (!(ar = (int *)ft_memalloc(sizeof(int) * len)))
+		return ;
+	j = 0;
+	while (len-- > 0)
+		ar[j++] = (*way)[len];
+	free(*way);
+	*way = ar;
 }

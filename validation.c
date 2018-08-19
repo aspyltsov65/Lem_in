@@ -41,13 +41,8 @@ void	parse_command(t_global *lem, char *line)
 
 	if (ft_strequ(line, "##start"))
 		lem->g_st_end = 1;
-	else if (ft_strequ(line, "##end"))
+	if (ft_strequ(line, "##end"))
 		lem->g_st_end = -1;
-	else
-	{
-		ft_putstr("Error: invalid command\n");
-		exit(1);
-	}
 	head = lem->l_room;
 	while (head)
 	{
@@ -71,6 +66,11 @@ void	parse_room(t_global *lem, t_room **rooms, char *line)
 	t_room	*head;
 	t_room 	*elem;
 
+	if (line[0] == 'L')
+	{
+		ft_putstr("Error: room will never start with the character L\n");
+		exit(1);
+	}
 	i = 0;
 	while (line[i])
 	{
@@ -182,7 +182,8 @@ void	ft_parse_links(t_global *lem, char *line)
 		exit(1);
 	}
 	dst = ft_strsplit(line, '-');
-	if (dst[2] || ft_strchr(dst[0], ' ') || ft_strchr(dst[1], ' '))
+	if (dst[2] || ft_strchr(dst[0], ' ') || ft_strchr(dst[1], ' ') ||
+	ft_strequ(dst[0], dst[1]))
 	{
 		// ft_freedom(dst);
 		ft_putstr("Error: invalid links\n");
@@ -219,8 +220,38 @@ void	ft_parse_links(t_global *lem, char *line)
 		ft_putstr("Error: using non-existent room\n");
 		exit(1);
 	}
-	lem->adj_matr[id1][id2] = 1;
-	lem->adj_matr[id2][id1] = 1;
+	if (lem->adj_matr[id1][id2] == 0 || lem->adj_matr[id2][id1] == 0)
+	{
+		lem->adj_matr[id1][id2] = 1;
+		lem->adj_matr[id2][id1] = 1;
+	}
+	else
+	{
+		ft_putstr("Error: duplicate links\n");
+		exit(1);
+	}
+}
+
+void	ft_fill_links(t_global *lem, int i)
+{
+	int	j;
+	int	k;
+
+	j = -1;
+	lem->rooms[i].c = 0;
+	while(++j < lem->c_r)
+		if (lem->adj_matr[j][i] == 1)
+			lem->rooms[i].c++;
+	if (!(lem->rooms[i].links = (int *)ft_memalloc(sizeof(int) * lem->rooms[i].c)))
+	{
+		perror("Error");
+		exit(1);
+	}
+	j = -1;
+	k = 0;
+	while(++j < lem->c_r)
+		if (lem->adj_matr[j][i] == 1)
+			lem->rooms[i].links[k++] = j;
 }
 
 void    ft_rewrite_array(t_global *lem)
@@ -229,30 +260,31 @@ void    ft_rewrite_array(t_global *lem)
     int		i;
 
     head = lem->l_room;
-    if(!(lem->rooms = (t_room *)ft_memalloc(sizeof(t_room) * (lem->c_r - 1))))
+    if(!(lem->rooms = (t_room *)ft_memalloc(sizeof(t_room) * (lem->c_r))))
     {
         perror("Error");
         exit(1);
     }
-	printf("~~~~~~~~~hello num |%d|\n", lem->c_r);
-	printf("room_0 %s\n", head->name);
-	printf("room_1 %s\n", head->next->name);
-	printf("room_2 %s\n", head->next->next->name);
     i = 0;
-    printf("hello\n");
-    while (i < lem->c_r - 1)
+    while (i < lem->c_r)
     {
 		lem->rooms[i].id = head->id;
 		lem->rooms[i].x = head->x;
 		lem->rooms[i].y = head->y;
 		lem->rooms[i].name = ft_strdup(head->name);
 		lem->rooms[i].st_end = head->st_end;
+		ft_fill_links(lem, i);
 		head = head->next;
 		i++;
 	}
-	printf("room[0] %s\n", lem->rooms[0].name);
-	printf("room[1] %s\n", lem->rooms[1].name);
-	printf("room[2] %s\n", lem->rooms[2].name);
-
-	// printf("%d\n", lem->c_r);
+	// printf("room[0] %s\n", lem->rooms[0].name);
+	// printf("id[0] %d\n", lem->rooms[0].id);
+	// printf("~0~ id %d\n", lem->rooms[0].id);
+	// printf("~0~links[1] %d\n", lem->rooms[0].links[1]);
+	// printf("~1~ id %d\n", lem->rooms[1].id);
+	// printf("~1~links[1] %d\n", lem->rooms[1].links[1]);
+	// printf("~2~links[0] %d\n", lem->rooms[2].links[0]);
+	// printf("~2~links[1] %d\n", lem->rooms[2].links[1]);
+	// printf("room[2] %s\n", lem->rooms[1].name);
+	// printf("room[1] %d\n", lem->rooms[1].id);	
 }

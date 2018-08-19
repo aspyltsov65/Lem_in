@@ -89,9 +89,10 @@ void				ft_union(size_t count, char **src);
 size_t				ft_count_words(char const *s, char c);
 double				ft_sqrt(size_t n);
 void				ft_smassive(char **s1, char **s2);
-void				ft_createlist(t_list **list, char *content);
+void				ft_createlist(t_list **list, void *content);
 int					ft_count_symbol(char **map, int max_y, int max_x, char s);
 void				ft_parse_list(t_list **list, char **arr);
 void				ft_freelist(t_list **head);
+void				ft_re_array(int **way, int len);
 
 #endif

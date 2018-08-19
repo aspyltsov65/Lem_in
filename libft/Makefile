@@ -79,7 +79,8 @@ SOURCE = ft_isalnum.c\
 		ft_createlist.c\
 		ft_count_symbol.c\
 		ft_parse_list.c\
-		ft_freelist.c
+		ft_freelist.c\
+		ft_re_array.c
 
 NAME = libft.a
 

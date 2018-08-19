@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
+  "/Users/apyltsov/Documents/Lem_in/algor.c" "/Users/apyltsov/Documents/Lem_in/cmake-build-debug/CMakeFiles/Lem_in.dir/algor.c.o"
   "/Users/apyltsov/Documents/Lem_in/get_next_line.c" "/Users/apyltsov/Documents/Lem_in/cmake-build-debug/CMakeFiles/Lem_in.dir/get_next_line.c.o"
   "/Users/apyltsov/Documents/Lem_in/libft/ft_atoi.c" "/Users/apyltsov/Documents/Lem_in/cmake-build-debug/CMakeFiles/Lem_in.dir/libft/ft_atoi.c.o"
   "/Users/apyltsov/Documents/Lem_in/libft/ft_bzero.c" "/Users/apyltsov/Documents/Lem_in/cmake-build-debug/CMakeFiles/Lem_in.dir/libft/ft_bzero.c.o"

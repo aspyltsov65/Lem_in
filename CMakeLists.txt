@@ -78,4 +78,5 @@ add_executable(Lem_in
         get_next_line.h
         lem_in.h
         reading.c
-        validation.c)
+        validation.c
+        algor.c)

@@ -71,6 +71,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Lem_in.dir/get_next_line.c.o"
   "CMakeFiles/Lem_in.dir/reading.c.o"
   "CMakeFiles/Lem_in.dir/validation.c.o"
+  "CMakeFiles/Lem_in.dir/algor.c.o"
   "Lem_in.pdb"
   "Lem_in"
 )

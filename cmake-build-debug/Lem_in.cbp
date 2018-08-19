@@ -80,6 +80,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/apyltsov/Documents/Lem_in/algor.c">
+			<Option target="Lem_in"/>
+		</Unit>
 		<Unit filename="/Users/apyltsov/Documents/Lem_in/get_next_line.c">
 			<Option target="Lem_in"/>
 		</Unit>
