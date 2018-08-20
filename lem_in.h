@@ -30,14 +30,16 @@ typedef struct		s_room
 	int				st_end;
 	int				used;
 	int				dist;
-	// int				busy;
+	int				busy;
 	struct s_room	*next;
 }					t_room;
 
 typedef struct 		s_ant;
 {
-	int				id;
+	// int				id;
+	int				end;
 	t_way			*road;
+	int				num_room;
 }					t_ant;
 
 typedef struct		s_way
