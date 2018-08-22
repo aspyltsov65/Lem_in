@@ -34,14 +34,6 @@ typedef struct		s_room
 	struct s_room	*next;
 }					t_room;
 
-typedef struct 		s_ant;
-{
-	// int				id;
-	int				end;
-	t_way			*road;
-	int				num_room;
-}					t_ant;
-
 typedef struct		s_way
 {
 	int				*way;
@@ -49,6 +41,14 @@ typedef struct		s_way
 	int				len;
 	int				act;
 }					t_way;
+
+typedef struct 		s_ant
+{
+	int				end;
+	t_way			*road;
+	int				num_room;
+	int				iway;
+}					t_ant;
 
 typedef struct		s_global
 {
@@ -63,6 +63,8 @@ typedef struct		s_global
 	int				c_r;
 }					t_global;
 
+// int					manage_read(t_global *lem, char *line, int flag);
+void				print_map(t_global *lem);
 void				ft_mall_matr(t_global *lem);
 void				valid_num_ants(char	*line, t_global *lem);
 void				parse_command(t_global *lem, char *line);
@@ -74,6 +76,6 @@ void                ft_rewrite_array(t_global *lem);
 void				ft_fill_links(t_global *lem, int i);
 int					ft_cheсk_connection(t_global *lem);
 void				bfs(t_global *lem, int i);
-void				go_ants(t_global *lem, int i);
+void				go_ants(t_global *lem, int st, int end);
 
 #endif

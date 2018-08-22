@@ -12,30 +12,31 @@
 
 #include "lem_in.h"
 
-void	bfs(t_global *lem, int i)
+void	bfs(t_global *lem, int end)
 {
 	int		j;
 	int		k;
 	int		r;
 	int		l;
 	int		n;
+	int		st;
 	t_list	*road;
 	t_list	*head;
 
 	j = -1;
 	while (++j < lem->c_r)
 		lem->rooms[j].used = 0;
-	if (!(lem->ways = (t_way *)ft_memalloc(sizeof(t_way) * lem->rooms[i].c)))
+	if (!(lem->ways = (t_way *)ft_memalloc(sizeof(t_way) * lem->rooms[end].c)))
 	{
 		perror("Error");
 		exit(1);
 	}
 	road = NULL;
 	n = -1;
-	while (++n < lem->rooms[i].c)
+	while (++n < lem->rooms[end].c)
 	{
 		l = 0;
-		j = i;
+		j = end;
 		while (lem->rooms[j].st_end != 1)
 		{
 			k = -1;
@@ -54,6 +55,7 @@ void	bfs(t_global *lem, int i)
 		}
 		if (lem->rooms[j].st_end == 1)
 		{
+			st = j;
 			lem->rooms[j].used = 0;
 			if (!(lem->ways[n].way = (int *)ft_memalloc(sizeof(int) * l)))
 			{
@@ -75,12 +77,12 @@ void	bfs(t_global *lem, int i)
 	k = -1;
 	while (++k < lem->c_way)
 		ft_re_array(&lem->ways[k].way, lem->ways[k].len);
-	go_ants(lem, st);
-	// printf("j %s\n", lem->rooms[j].name);
 	// printf("way~0~ %d\n", lem->ways[0].way[0]);
 	// printf("way~0~ %d\n", lem->ways[0].way[1]);
 	// printf("way~1~ %d\n", lem->ways[1].way[0]);
 	// printf("way~1~ %d\n", lem->ways[1].way[1]);
 	// printf("way~2~ %d\n", lem->ways[2].way[0]);
 	// printf("way~2~ %d\n", lem->ways[2].way[1]);
+	// printf("privetic\n");
+	go_ants(lem, st, end);
 }

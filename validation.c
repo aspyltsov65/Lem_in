@@ -178,15 +178,16 @@ void	ft_parse_links(t_global *lem, char *line)
 		i++;
 	if (line[i + 1] && line[i + 1] == '-')
 	{
-		ft_putstr("Error: between two rooms must be only one hyphen\n");
+		print_map(lem);
+		ft_putendl("\nError: between two rooms must be only one dash");
 		exit(1);
 	}
 	dst = ft_strsplit(line, '-');
 	if (dst[2] || ft_strchr(dst[0], ' ') || ft_strchr(dst[1], ' ') ||
 	ft_strequ(dst[0], dst[1]))
 	{
-		// ft_freedom(dst);
-		ft_putstr("Error: invalid links\n");
+		print_map(lem);
+		ft_putendl("\nError: invalid links");
 		exit(1);
 	}
 	head = lem->l_room;
@@ -202,22 +203,16 @@ void	ft_parse_links(t_global *lem, char *line)
 			j++;
 		head = head->next;
 	}
-	t_list	*time;
 	if (j != 2)
 	{
-		time = lem->cont_file;
-		while (time)
-        {
-            ft_putstr("\n");
-            ft_putstr(time->content);
-            time = time->next;
-        }
+		print_map(lem);
 		ft_putstr("\nError: there must be commands ##start and ##end\n");
 		exit(1);
 	}
 	if (i != 2)
 	{
-		ft_putstr("Error: using non-existent room\n");
+		print_map(lem);
+		ft_putstr("\nError: using non-existent room\n");
 		exit(1);
 	}
 	if (lem->adj_matr[id1][id2] == 0 || lem->adj_matr[id2][id1] == 0)

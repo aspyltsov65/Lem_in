@@ -12,6 +12,19 @@
 
 #include "lem_in.h"
 
+void	print_map(t_global *lem)
+{
+	t_list	*time;
+
+	time = lem->cont_file;
+	while (time)
+	{
+		ft_putstr(time->content);
+		ft_putstr("\n");
+		time = time->next;
+	}
+}
+
 int		ft_cheсk_connection(t_global *lem)
 {
 	t_list	*queue;
@@ -27,7 +40,7 @@ int		ft_cheсk_connection(t_global *lem)
 			break ;
 	ft_createlist(&queue, &lem->rooms[i].id);
 	k = 0;
-	while (queue && ++k)
+	while (queue && ++k)		
 	{
 		i = *(int *)queue->content;
 		j = -1;
@@ -49,60 +62,6 @@ int		ft_cheсk_connection(t_global *lem)
 	return (-1);
 }
 
-void	read_file(t_global *lem)
-{
-	char	*line;
-	int		flag;
-	int		gnl_result;
-
-	lem->cont_file = NULL;
-	lem->l_room = NULL;
-	flag = 0;
-	while ((gnl_result = get_next_line(0, &line)) > 0)
-	{
-		if (line[0] == '\0')
-		{
-			ft_putstr("Error: invalid input\n");
-			exit(1);
-		}
-		if (flag == 0 && !ft_strchr(line, '#') && (flag = 1))
-			valid_num_ants(line, lem);
-		else if (ft_strstr(line, "##"))
-			parse_command(lem, line);
-		else if (flag == 1 && ft_strchr(line, ' ') && !ft_strchr(line, '#'))
-			parse_room(lem, &lem->l_room, line);
-		else if (flag == 1 && ft_strchr(line, '-') && (flag = 2))
-            ft_mall_matr(lem);
-		// else if (!ft_strchr(line, '#') && flag != 2 && flag != 3)
-		// {
-		// 	ft_putstr("Error: invalid input\n");
-		// 	exit(1);
-		// }
-		if ((flag == 2 || flag == 3) && ft_strchr(line, '-') && (flag = 3))
-			ft_parse_links(lem, line);
-		ft_createlist(&lem->cont_file, line);
-		free(line);
-	}
-	if (gnl_result < 0 )
-	{
-		perror("Error");
-		exit(1);
-	}
-	if (gnl_result == 0 && flag != 3)
-	{
-		ft_putstr("Error: invalid input\n");
-		exit(1);
-	}
-    ft_rewrite_array(lem);
-    flag = ft_cheсk_connection(lem);
-    if(flag == -1)
-    {
-    	ft_putstr("Error: there is no connection between the start and end\n");
-    	exit(1);
-    }
-    bfs(lem, flag);
-}
-
 void	ft_mall_matr(t_global *lem)
 {
 
@@ -122,6 +81,52 @@ void	ft_mall_matr(t_global *lem)
 			exit(1);
 		}
 	}
+}
+// void	manage_read(t_global *lem)
+// {
+
+// }
+void	read_file(t_global *lem)
+{
+	char	*line;
+	int		flag;
+	int		gnl_result;
+
+	lem->cont_file = NULL;
+	lem->l_room = NULL;
+	flag = 0;
+	while ((gnl_result = get_next_line(0, &line)) > 0)
+	{
+		ft_createlist(&lem->cont_file, line);
+		if (line[0] == '\0')
+		{
+			ft_putstr("Error: invalid input\n");
+			exit(1);
+		}
+		if (flag == 0 && !ft_strchr(line, '#') && (flag = 1))
+			valid_num_ants(line, lem);
+		else if (ft_strstr(line, "##"))
+			parse_command(lem, line);
+		else if (flag == 1 && ft_strchr(line, ' ') && !ft_strchr(line, '#'))
+			parse_room(lem, &lem->l_room, line);
+		else if (flag == 1 && ft_strchr(line, '-') && (flag = 2))
+			ft_mall_matr(lem);
+		if ((flag == 2 || flag == 3) && ft_strchr(line, '-') && (flag = 3))
+			ft_parse_links(lem, line);
+		free(line);
+	}
+	if (gnl_result < 0 )
+	{
+		perror("Error");
+		exit(1);
+	}
+	if (gnl_result == 0 && flag != 3)
+		exit(write(1, "Error: invalid input\n", 22));
+	ft_rewrite_array(lem);
+	flag = ft_cheсk_connection(lem);
+	if(flag == -1)
+		exit(write(1, "Error: no connection between the start and end\n", 48));
+	bfs(lem, flag);
 }
 
 int		main()
