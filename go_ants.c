@@ -41,6 +41,7 @@ void					go_ants(t_global *lem, int st, int end)
 	int		c;
 	int		one_way;
 
+	write(1, "\n", 1);
 	i = -1;
 	while (++i < lem->ants)
 	{
