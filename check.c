@@ -39,21 +39,26 @@ int		create_queue(t_global *lem, int i, t_list *queue)
 	int		j;
 	t_list	*head;
 	int		end;
+	int		parent;
 
 	k = 0;
 	end = -1;
-	while (queue && ++k)
+	while (queue)
 	{
 		i = *(int *)queue->content;
 		j = -1;
 		printf("~~~~~~~~ head room %s links %d\n", lem->rooms[i].name, lem->rooms[i].c);
+		if (parent != i)
+			k++;
 		while (++j < lem->rooms[i].c)
 		{
 			if (lem->rooms[lem->rooms[i].links[j]].used == 0)
 			{
 				ft_createlist(&queue, &lem->rooms[i].links[j]);
 				lem->rooms[lem->rooms[i].links[j]].dist = k;
-				lem->rooms[lem->rooms[i].links[j]].used = 1;
+				lem->rooms[lem->rooms[i].links[j]].parent = i;
+				parent = i;
+				// lem->rooms[lem->rooms[i].links[j]].used = 1;
 				printf("room |%s| k = %d\n", lem->rooms[lem->rooms[i].links[j]].name, k);
 			}
 			if (lem->rooms[lem->rooms[i].links[j]].st_end == -1)
