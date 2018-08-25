@@ -31,6 +31,7 @@ typedef struct		s_room
 	int				used;
 	int				dist;
 	int				busy;
+	int				parent;
 	struct s_room	*next;
 }					t_room;
 
@@ -42,7 +43,7 @@ typedef struct		s_way
 	int				act;
 }					t_way;
 
-typedef struct 		s_ant
+typedef struct		s_ant
 {
 	int				end;
 	t_way			*road;
@@ -53,7 +54,7 @@ typedef struct 		s_ant
 typedef struct		s_global
 {
 	t_room			*l_room;
-    t_room          *rooms;
+	t_room			*rooms;
 	int				**adj_matr;
 	t_way			*ways;
 	int				c_way;
@@ -63,19 +64,23 @@ typedef struct		s_global
 	int				c_r;
 }					t_global;
 
-// int					manage_read(t_global *lem, char *line, int flag);
-void				print_map(t_global *lem);
+int					manage_read(t_global *lem, char *line, int flag);
 void				ft_mall_matr(t_global *lem);
 void				valid_num_ants(char	*line, t_global *lem);
 void				parse_command(t_global *lem, char *line);
 void				parse_room(t_global *lem, t_room **rooms, char *line);
 void				ft_freerooms(t_room **rooms);
-int					ft_cheak_rn(t_room *rooms, char *name, int x, int y);
+int					ft_check_rn(t_room *rooms, char *name, int x, int y);
 void				ft_parse_links(t_global *lem, char *line);
-void                ft_rewrite_array(t_global *lem);
+void				ft_rewrite_array(t_global *lem);
 void				ft_fill_links(t_global *lem, int i);
 int					ft_cheсk_connection(t_global *lem);
+int					create_queue(t_global *lem, int i, t_list *queue);
 void				bfs(t_global *lem, int i);
 void				go_ants(t_global *lem, int st, int end);
+void				create_list_room(t_global *lem, t_room **rooms, char **ds);
+void				check_room(t_global *lem, char *line);
+void				valid_links(t_global *lem, char **dst, int *j, int id1);
+
 
 #endif
