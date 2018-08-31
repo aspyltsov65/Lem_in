@@ -75,8 +75,10 @@ void	parse_room(t_global *lem, t_room **rooms, char *line)
 	if (ft_strchr(line, ' '))
 	{
 		dst = ft_strsplit(line, ' ');
-		if (dst[3] || ft_strchr(dst[0], '-') || !dst[1] || !dst[2])
+		if (ft_strchr(dst[0], '-') || !dst[1] || !dst[2])
 		{
+			// printf("dst[1] %s\n", dst[1]);
+			// printf("dst[2] %s\n", dst[2]);
 			ft_putstr("Error: invalid input for room\n");
 			exit(1);
 		}

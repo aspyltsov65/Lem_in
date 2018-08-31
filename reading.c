@@ -40,11 +40,7 @@ void	ft_rewrite_array(t_global *lem)
 int		manage_read(t_global *lem, char *line, int flag)
 {
 	if (line[0] == '\0')
-	{
-		// ft_putstr("Error: invalid input\n");
-		// exit(1);
 		return (-1);
-	}
 	if (flag == 0 && !ft_strchr(line, '#') && (flag = 1))
 		valid_num_ants(line, lem);
 	else if (ft_strstr(line, "##") && (flag != 2 || flag != 3))
@@ -80,12 +76,11 @@ void	read_file(t_global *lem)
 		exit(1);
 	}
 	if (gnl_result == 0 && flag != 3)
-		exit(write(1, "Error: invalid input or empty file\n", 36));
+		exit(write(1, "\nError: invalid input or empty file\n", 37));
 	ft_rewrite_array(lem);
 	flag = ft_cheсk_connection(lem);
-	// printf("flag %d\n", flag);
 	if (flag == -1)
-		exit(write(1, "Error: no connection between the start and end\n", 48));
+		exit(write(1, "\nError: no connection between the start and end\n", 49));
 	bfs(lem, flag);
 }
 
@@ -99,5 +94,7 @@ int		main(void)
 		exit(1);
 	}
 	read_file(lem);
+	// while (1)
+	// 	;
 	return (0);
 }

@@ -1,0 +1,27 @@
+16
+##start
+S 23 3
+b 16 7
+##end
+E! 14 8
+kk 24 8
+ll 34 8
+mm 44 8
+nn 54 8
+oo 64 8
+pp 74 8
+qq 84 8
+rr 94 8
+ss 5 8
+S-b
+b-E!
+S-kk
+kk-ll
+ll-mm
+mm-nn
+nn-oo
+oo-pp
+pp-qq
+qq-rr
+rr-ss
+ss-E!

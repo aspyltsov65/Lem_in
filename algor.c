@@ -12,74 +12,17 @@
 
 #include "lem_in.h"
 
-<<<<<<< HEAD
-void  bfs(t_global *lem, int end)
-=======
-int		remember_way(t_global *lem, t_list *road, int j, int n)
-{
-	int		k;
-	int		st;
-	t_list	*head;
-
-	if (lem->rooms[j].st_end == 1)
-	{
-		st = j;
-		lem->rooms[j].used = 0;
-		if (!(lem->ways[n].way = (int *)ft_memalloc(sizeof(int) * l)))
-		{
-			perror("Error");
-			exit(1);
-		}
-		head = road;
-		k = -1;
-		while (++k < l)
-		{
-			lem->ways[n].way[k] = *(int *)road->content;
-			road = road->next;
-		}
-		ft_freelist(&head);
-		lem->ways[n].len = l;
-		lem->c_way++;
-	}
-	return (st);
-}
-
-int		find_way(t_global *lem, t_list *road, int end)
-{
-	int	l;
-	int	j;
-	int	k;
-	int	r;
-
-	l = 0;
-	j = end;
-	while (lem->rooms[j].st_end != 1)
-	{
-		k = -1;
-		while (++k < lem->rooms[j].c)
-		{
-			r = lem->rooms[j].links[k];
-			if (lem->rooms[r].dist <= lem->rooms[j].dist && lem->rooms[r].used == 0)
-			{
-				lem->rooms[r].used = 1;
-				ft_createlist(&road, &j);
-				j = lem->rooms[r].id;
-				l++;
-				break ;
-			}
-		}
-	}
-	return (j);
-}
-
 void	bfs(t_global *lem, int end)
->>>>>>> 98fdb2b6b7ef30dbb5a7fada1f6140ac10fedb01
 {
 	int		j;
 	int		k;
 	int		n;
+	int		r;
+	int		l;
+	int 	dist;
 	int		st;
 	t_list	*road;
+	t_list	*head;
 
 	j = -1;
 	while (++j < lem->c_r)
@@ -93,52 +36,43 @@ void	bfs(t_global *lem, int end)
 	n = -1;
 	while (++n < lem->rooms[end].c)
 	{
-<<<<<<< HEAD
-		// printf(" lem->rooms[end].name %s\n", lem->rooms[end].name);
-		// printf("~~~~~~~ lem->rooms[j].name %s\n", lem->rooms[5].name);
-		// printf("~~~~~~~ lem->rooms[j].link[0] %d dist %d\n", lem->rooms[5].links[0], lem->rooms[lem->rooms[5].links[0]].dist);
-		// printf("~~~~~~~ lem->rooms[j].link[1] %d dist %d\n", lem->rooms[5].links[1], lem->rooms[lem->rooms[5].links[1]].dist);
-		// printf("~~~~~~~ lem->rooms[j].link[2] %d dist %d\n", lem->rooms[5].links[2], lem->rooms[lem->rooms[5].links[2]].dist);
-		// printf("~~~~~~~ lem->rooms[j].link[3] %d dist %d\n", lem->rooms[5].links[3], lem->rooms[lem->rooms[5].links[3]].dist);
 		l = 0;
+		r = 0;
 		j = end;
-		while (lem->rooms[j].st_end != 1)
+		while (lem->rooms[j].st_end != 1 && r != -1)
 		{
-			// printf("~~~~in while   %s\n", lem->rooms[j].name);
+			k = -1;
+			dist = 0;
+			r = -1;
+			while (++k < lem->rooms[j].c)
+				if (lem->rooms[lem->rooms[j].links[k]].dist > dist)
+					dist = lem->rooms[lem->rooms[j].links[k]].dist;
 			k = -1;
 			while (++k < lem->rooms[j].c)
 			{
-				if (k + 1 < lem->rooms[j].c && lem->rooms[lem->rooms[j].links[k + 1]].dist < \
-				lem->rooms[lem->rooms[j].links[k]].dist)
-					r = lem->rooms[j].links[k + 1];
-				else
-					r = lem->rooms[j].links[k];
-				// printf("lem->rooms[r].used %d\n", lem->rooms[r].used);
-				// printf("lem->rooms[r].link %d\n", lem->rooms[r].links[0]);
-				// printf("lem->rooms[r].link %d\n", lem->rooms[r].links[1]);
-				if (lem->rooms[r].used == 0)
+				if (!lem->rooms[lem->rooms[j].links[k]].used &&
+				lem->rooms[lem->rooms[j].links[k]].dist <= dist)
 				{
-					// printf("|||||||| parent %s Id %d\n", lem->rooms[j].name, lem->rooms[j].id);
-					// printf("~~~~~~kids %s\n", lem->rooms[r].name);
-					lem->rooms[j].used = 1;
-					ft_createlist(&road, &j);
-					j = lem->rooms[r].id;
-					// printf("~name~ %d\n", lem->rooms[r].links[0]);
-					// printf("~name~ %d\n", lem->rooms[r].links[1]);	
-					l++;
-					break ;
+					r = lem->rooms[j].links[k];
+					dist = lem->rooms[lem->rooms[j].links[k]].dist;
 				}
-				// printf("~~~~~~~ lem->rooms[j].name %s\n", lem->rooms[j].name);
-				// printf("~~~~~~~ lem->rooms[j].link %d\n", lem->rooms[j].links[0]);
-				// printf("~~~~~~~ lem->rooms[j].link %d\n", lem->rooms[j].links[1]);
-				// printf("~~~~~~~ lem->rooms[j].link %d\n", lem->rooms[j].links[2]);
 			}
+			lem->rooms[j].used = 1;
+			if (r != -1)
+			{
+				
+				ft_createlist(&road, &j);
+				j = lem->rooms[r].id;	
+				l++;
+			}
+			else
+				ft_freelist(&road);
 		}
 		if (lem->rooms[j].st_end == 1)
 		{
 			st = j;
 			lem->rooms[j].used = 0;
-			if (!(lem->ways[n].way = (int *)ft_memalloc(sizeof(int) * l)))
+			if (!(lem->ways[lem->c_way].way = (int *)ft_memalloc(sizeof(int) * l)))
 			{
 				perror("Error");
 				exit(1);
@@ -147,27 +81,23 @@ void	bfs(t_global *lem, int end)
 			k = -1;
 			while (++k < l)
 			{
-				lem->ways[n].way[k] = *(int *)road->content;
-				// printf("way[0] %s\n", lem->rooms[lem->ways[0].way[k]].name);
+				lem->ways[lem->c_way].way[k] = *(int *)road->content;
 				road = road->next;
 			}
-			// printf("way[0] %s\n", lem->rooms[lem->ways[0].way[0]].name);
-			// printf("way[1] %s\n", lem->rooms[lem->ways[0].way[1]].name);
-			// printf("way[2] %s\n", lem->rooms[lem->ways[0].way[2]].name);
-			// printf("way[3] %s\n", lem->rooms[lem->ways[0].way[3]].name);
-			// printf("way[4] %s\n", lem->rooms[lem->ways[0].way[4]].name);
 			ft_freelist(&head);
-			lem->ways[n].len = l;
+			lem->ways[lem->c_way].len = l;
 			lem->c_way++;
 		}
- 	}
-=======
-		j = find_way(lem, road, end);
-		st = remember_way(lem, road, j, n);
 	}
->>>>>>> 98fdb2b6b7ef30dbb5a7fada1f6140ac10fedb01
 	k = -1;
 	while (++k < lem->c_way)
 		ft_re_array(&lem->ways[k].way, lem->ways[k].len);
+	// printf("lem->ways[3].way[0] %s\n", lem->rooms[lem->ways[3].way[0]].name);
+	// printf("lem->ways[3].way[1] %s\n", lem->rooms[lem->ways[3].way[1]].name);
+	// printf("lem->ways[3].way[2] %s\n", lem->rooms[lem->ways[3].way[2]].name);
+	// printf("lem->ways[3].way[3] %s\n", lem->rooms[lem->ways[3].way[3]].name);
+	// printf("lem->ways[3].way[4] %s\n", lem->rooms[lem->ways[3].way[4]].name);
+	// printf("lem->ways[3].way[5] %s\n", lem->rooms[lem->ways[3].way[5]].name);
+	// printf("lem->ways[3].way[6] %s\n", lem->rooms[lem->ways[0].way[3]].name);
 	go_ants(lem, st, end);
 }

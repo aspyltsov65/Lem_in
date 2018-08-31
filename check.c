@@ -38,9 +38,8 @@ int		create_queue(t_global *lem, int i, t_list *queue)
 	int		k;
 	int		j;
 	t_list	*head;
-<<<<<<< HEAD
 	int		end;
-	int		parent;
+	int		dist;
 
 	k = 0;
 	end = -1;
@@ -48,47 +47,27 @@ int		create_queue(t_global *lem, int i, t_list *queue)
 	{
 		i = *(int *)queue->content;
 		j = -1;
-		printf("~~~~~~~~ head room %s links %d\n", lem->rooms[i].name, lem->rooms[i].c);
-		if (parent != i)
-			k++;
-=======
-
-	k = 0;
-	while (queue && ++k)
-	{
-		i = *(int *)queue->content;
-		j = -1;
->>>>>>> 98fdb2b6b7ef30dbb5a7fada1f6140ac10fedb01
+		if (dist != lem->rooms[i].dist && ++k)
+			dist = lem->rooms[i].dist;
 		while (++j < lem->rooms[i].c)
 		{
 			if (lem->rooms[lem->rooms[i].links[j]].used == 0)
 			{
 				ft_createlist(&queue, &lem->rooms[i].links[j]);
 				lem->rooms[lem->rooms[i].links[j]].dist = k;
-<<<<<<< HEAD
-				lem->rooms[lem->rooms[i].links[j]].parent = i;
-				parent = i;
-				// lem->rooms[lem->rooms[i].links[j]].used = 1;
-				printf("room |%s| k = %d\n", lem->rooms[lem->rooms[i].links[j]].name, k);
+				lem->rooms[lem->rooms[i].links[j]].used = 1;
 			}
 			if (lem->rooms[lem->rooms[i].links[j]].st_end == -1)
 				end = lem->rooms[i].links[j];
-=======
-			}
-			if (lem->rooms[lem->rooms[i].links[j]].st_end == -1)
-				return (lem->rooms[i].links[j]);
->>>>>>> 98fdb2b6b7ef30dbb5a7fada1f6140ac10fedb01
 		}
 		lem->rooms[i].used = 1;
 		head = queue->next;
 		free(queue);
 		queue = head;
 	}
-<<<<<<< HEAD
+	// while(1)
+	// 	;
 	return (end);
-=======
-	return (-1);
->>>>>>> 98fdb2b6b7ef30dbb5a7fada1f6140ac10fedb01
 }
 
 int		ft_cheсk_connection(t_global *lem)

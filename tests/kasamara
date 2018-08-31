@@ -1,0 +1,20 @@
+100
+##start
+A 11 11
+B 22 22
+C 33 33
+D 44 44
+E 55 55
+F 66 77
+##end
+G 54 56
+A-F
+A-C
+A-B
+C-E
+B-D
+F-D
+F-E
+E-G
+F-G
+G-D

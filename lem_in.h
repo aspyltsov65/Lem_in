@@ -31,7 +31,6 @@ typedef struct		s_room
 	int				used;
 	int				dist;
 	int				busy;
-	int				parent;
 	struct s_room	*next;
 }					t_room;
 

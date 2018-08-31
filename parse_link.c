@@ -32,13 +32,13 @@ void	valid_links(t_global *lem, char **dst, int *j, int id1)
 	}
 	if (i != 2)
 		exit(write(1, "\nError: using non-existent room\n", 32));
-	if (lem->adj_matr[id1][id2] == 0 || lem->adj_matr[id2][id1] == 0)
-	{
+	// if (lem->adj_matr[id1][id2] == 0 || lem->adj_matr[id2][id1] == 0)
+	// {
 		lem->adj_matr[id1][id2] = 1;
 		lem->adj_matr[id2][id1] = 1;
-	}
-	else
-		exit(write(1, "\nError: duplicate links\n", 24));
+	// }
+	// else
+	// 	exit(write(1, "\nError: duplicate links\n", 24));
 }
 
 void	ft_parse_links(t_global *lem, char *line)
@@ -57,11 +57,12 @@ void	ft_parse_links(t_global *lem, char *line)
 		exit(1);
 	}
 	dst = ft_strsplit(line, '-');
-	if (dst[2] || ft_strchr(dst[0], ' ') || ft_strchr(dst[1], ' ') ||
-	ft_strequ(dst[0], dst[1]))
+	if (dst[2] || ft_strchr(dst[0], ' ') || ft_strchr(dst[1], ' '))
 		exit(write(1, "\nError: invalid links\n", 22));
 	j = 0;
 	valid_links(lem, dst, &j, id1);
+	i = ft_count_words(line, '-');
+	ft_freedom(dst, i);
 	if (j != 2)
 	{
 		ft_putendl("\nError: there must be rooms with commands start and end");
