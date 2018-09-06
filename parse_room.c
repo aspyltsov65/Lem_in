@@ -33,7 +33,7 @@ void	create_list_room(t_global *lem, t_room **rooms, char **dst)
 	else
 	{
 		ft_freerooms(rooms);
-		exit(write(1, "\nError: duplicate room names or coordinates\n", 44));
+		ft_error(lem, 8);
 	}
 	elem->name = ft_strdup(dst[0]);
 	elem->st_end = lem->g_st_end;
@@ -46,10 +46,7 @@ void	check_room(t_global *lem, char *line)
 	int i;
 
 	if (line[0] == 'L')
-	{
-		ft_putendl("\nError: room will never start with the character L");
-		exit(1);
-	}
+		ft_error(lem, 4);
 	i = 0;
 	while (line[i])
 	{
@@ -59,11 +56,10 @@ void	check_room(t_global *lem, char *line)
 			break ;
 		if (line[++i] && !ft_isdigit(line[i]) && line[i] != '-'
 		&& line[i] != '+')
-		{
-			ft_putendl("\nError: must be only one spase between room & coord");
-			exit(1);
-		}
+			ft_error(lem, 5);
 	}
+	if (i < 5)
+		ft_error(lem, 6);
 }
 
 void	parse_room(t_global *lem, t_room **rooms, char *line)
@@ -75,23 +71,13 @@ void	parse_room(t_global *lem, t_room **rooms, char *line)
 	if (ft_strchr(line, ' '))
 	{
 		dst = ft_strsplit(line, ' ');
-		if (ft_strchr(dst[0], '-') || !dst[1] || !dst[2])
-		{
-			// printf("dst[1] %s\n", dst[1]);
-			// printf("dst[2] %s\n", dst[2]);
-			ft_putstr("Error: invalid input for room\n");
-			exit(1);
-		}
+		if (ft_strchr(dst[0], '-') || !dst[1] || !dst[2] || dst[3])
+			ft_error(lem, 6);
 		i = 0;
 		while (dst[1][++i] || dst[2][i])
-		{
 			if ((dst[1][i] && !ft_isdigit(dst[1][i])) ||
 			(dst[2][i] && !ft_isdigit(dst[2][i])))
-			{
-				ft_putstr("Error: invalid rooms coordinates\n");
-				exit(1);
-			}
-		}
+				ft_error(lem, 7);
 	}
 	create_list_room(lem, rooms, dst);
 	ft_freedom(dst, 4);

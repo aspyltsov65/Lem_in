@@ -92,12 +92,5 @@ void	bfs(t_global *lem, int end)
 	k = -1;
 	while (++k < lem->c_way)
 		ft_re_array(&lem->ways[k].way, lem->ways[k].len);
-	// printf("lem->ways[3].way[0] %s\n", lem->rooms[lem->ways[3].way[0]].name);
-	// printf("lem->ways[3].way[1] %s\n", lem->rooms[lem->ways[3].way[1]].name);
-	// printf("lem->ways[3].way[2] %s\n", lem->rooms[lem->ways[3].way[2]].name);
-	// printf("lem->ways[3].way[3] %s\n", lem->rooms[lem->ways[3].way[3]].name);
-	// printf("lem->ways[3].way[4] %s\n", lem->rooms[lem->ways[3].way[4]].name);
-	// printf("lem->ways[3].way[5] %s\n", lem->rooms[lem->ways[3].way[5]].name);
-	// printf("lem->ways[3].way[6] %s\n", lem->rooms[lem->ways[0].way[3]].name);
 	go_ants(lem, st, end);
 }

@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include "libft/libft.h"
 
-# define BUFF_SIZE 1024
+# define BUFF 		1024
 
 typedef struct		s_arr
 {

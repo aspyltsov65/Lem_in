@@ -12,7 +12,20 @@
 
 #include "lem_in.h"
 
-void	ft_mall_matr(t_global *lem)
+void		check_gnl_result(int gnl_result, int flag)
+{
+	if (flag == -1)
+		exit(ft_printf("\n{RED}Error: {RESET}invalid input\n"));
+	if (gnl_result < 0)
+	{
+		perror("Error");
+		exit(1);
+	}
+	if (gnl_result == 0 && flag != 3)
+		exit(ft_printf("\n{RED}Error: {RESET} invalid input or empty file\n"));
+}
+
+void		ft_mall_matr(t_global *lem)
 {
 	int	i;
 
@@ -33,10 +46,32 @@ void	ft_mall_matr(t_global *lem)
 	}
 }
 
-int		create_queue(t_global *lem, int i, t_list *queue)
+static int	ft_check_link(t_global *lem, t_list **queue, int i, int k)
+{
+	int j;
+	int end;
+
+	end = -1;
+	j = -1;
+	while (++j < lem->rooms[i].c)
+	{
+		if (lem->rooms[lem->rooms[i].links[j]].used == 0)
+		{
+			ft_createlist(queue, &lem->rooms[i].links[j]);
+			lem->rooms[lem->rooms[i].links[j]].dist = k;
+			lem->rooms[lem->rooms[i].links[j]].used = 1;
+		}
+		if (lem->rooms[lem->rooms[i].links[j]].st_end == -1)
+			end = lem->rooms[i].links[j];
+	}
+	return (end);
+}
+
+int			create_queue(t_global *lem, int i, t_list *queue)
 {
 	int		k;
 	int		j;
+	int		res;
 	t_list	*head;
 	int		end;
 	int		dist;
@@ -49,28 +84,19 @@ int		create_queue(t_global *lem, int i, t_list *queue)
 		j = -1;
 		if (dist != lem->rooms[i].dist && ++k)
 			dist = lem->rooms[i].dist;
-		while (++j < lem->rooms[i].c)
-		{
-			if (lem->rooms[lem->rooms[i].links[j]].used == 0)
-			{
-				ft_createlist(&queue, &lem->rooms[i].links[j]);
-				lem->rooms[lem->rooms[i].links[j]].dist = k;
-				lem->rooms[lem->rooms[i].links[j]].used = 1;
-			}
-			if (lem->rooms[lem->rooms[i].links[j]].st_end == -1)
-				end = lem->rooms[i].links[j];
-		}
+		res = ft_check_link(lem, &queue, i, k);
+		if (end == -1)
+			end = res;
 		lem->rooms[i].used = 1;
+		free(queue->content);
 		head = queue->next;
 		free(queue);
 		queue = head;
 	}
-	// while(1)
-	// 	;
 	return (end);
 }
 
-int		ft_cheсk_connection(t_global *lem)
+int			ft_cheсk_connection(t_global *lem)
 {
 	t_list	*queue;
 	int		i;

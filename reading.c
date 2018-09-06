@@ -37,6 +37,18 @@ void	ft_rewrite_array(t_global *lem)
 	}
 }
 
+void	put_file(t_global *lem)
+{
+	t_list *head;
+
+	head = lem->cont_file;
+	while (head)
+	{
+		ft_putendl(head->content);
+		head = head->next;
+	}
+}
+
 int		manage_read(t_global *lem, char *line, int flag)
 {
 	if (line[0] == '\0')
@@ -61,26 +73,22 @@ void	read_file(t_global *lem)
 	int		gnl_result;
 
 	lem->l_room = NULL;
+	lem->cont_file = NULL;
 	flag = 0;
 	while ((gnl_result = get_next_line(0, &line)) > 0)
 	{
+		ft_createlist(&lem->cont_file, line);
+		flag = manage_read(lem, line, flag);
 		if (flag == -1)
 			break ;
-		ft_putendl(line);
-		flag = manage_read(lem, line, flag);
 		free(line);
 	}
-	if (gnl_result < 0)
-	{
-		perror("Error");
-		exit(1);
-	}
-	if (gnl_result == 0 && flag != 3)
-		exit(write(1, "\nError: invalid input or empty file\n", 37));
+	put_file(lem);
+	check_gnl_result(gnl_result, flag);
 	ft_rewrite_array(lem);
 	flag = ft_cheсk_connection(lem);
 	if (flag == -1)
-		exit(write(1, "\nError: no connection between the start and end\n", 49));
+		exit(ft_printf("\n{RED}Error: {RESET}START and END not connected\n"));
 	bfs(lem, flag);
 }
 
@@ -94,7 +102,6 @@ int		main(void)
 		exit(1);
 	}
 	read_file(lem);
-	// while (1)
-	// 	;
+	// system("leaks a.out");
 	return (0);
 }

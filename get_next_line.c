@@ -104,13 +104,13 @@ int				get_next_line(const int fd, char **line)
 	static t_arr	*list;
 	char			*buff;
 
-	if (fd < 0 || BUFF_SIZE <= 0 || !line)
+	if (fd < 0 || BUFF <= 0 || !line)
 		return (-1);
 	list = funk_list(fd, list);
 	*line = NULL;
 	ft_checktail(line, &(list->arr));
-	buff = ft_strnew(BUFF_SIZE);
-	while (!(list->arr) && (file = read(list->fd, buff, BUFF_SIZE)) > 0)
+	buff = ft_strnew(BUFF);
+	while (!(list->arr) && (file = read(list->fd, buff, BUFF)) > 0)
 	{
 		if (!*line)
 		{
@@ -119,7 +119,7 @@ int				get_next_line(const int fd, char **line)
 		}
 		else if (*line && ft_line_join(line, buff, &(list->arr)) == 1)
 			break ;
-		ft_bzero((void*)buff, BUFF_SIZE);
+		ft_bzero((void*)buff, BUFF);
 	}
 	ft_strdel(&buff);
 	if (file < 0)
