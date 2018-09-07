@@ -12,16 +12,16 @@
 
 #include "lem_in.h"
 
-void		check_gnl_result(int gnl_result, int flag)
+void		check_gnl_result(int gnl_result, int num, int flag)
 {
-	if (flag == -1)
-		exit(ft_printf("\n{RED}Error: {RESET}invalid input\n"));
+	if (num == -1 && (flag == 1 || flag == 0))
+		exit(ft_printf("{RED}Error: {RESET}invalid input\n"));
 	if (gnl_result < 0)
 	{
 		perror("Error");
 		exit(1);
 	}
-	if (gnl_result == 0 && flag != 3)
+	if (gnl_result == 0 && num != 3)
 		exit(ft_printf("\n{RED}Error: {RESET} invalid input or empty file\n"));
 }
 
@@ -67,10 +67,9 @@ static int	ft_check_link(t_global *lem, t_list **queue, int i, int k)
 	return (end);
 }
 
-int			create_queue(t_global *lem, int i, t_list *queue)
+int			create_queue(t_global *lem, int i, t_list *queue, int j)
 {
 	int		k;
-	int		j;
 	int		res;
 	t_list	*head;
 	int		end;
@@ -101,13 +100,13 @@ int			ft_cheсk_connection(t_global *lem)
 	t_list	*queue;
 	int		i;
 	int		j;
-	int		k;
 
 	queue = NULL;
+	j = 0;
 	i = -1;
 	while (++i < lem->c_r)
 		if (lem->rooms[i].st_end == 1)
 			break ;
 	ft_createlist(&queue, &lem->rooms[i].id);
-	return (create_queue(lem, i, queue));
+	return (create_queue(lem, i, queue, j));
 }

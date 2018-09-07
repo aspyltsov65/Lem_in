@@ -56,7 +56,7 @@ void	check_room(t_global *lem, char *line)
 			break ;
 		if (line[++i] && !ft_isdigit(line[i]) && line[i] != '-'
 		&& line[i] != '+')
-			ft_error(lem, 5);
+			ft_error(lem, 6);
 	}
 	if (i < 5)
 		ft_error(lem, 6);
@@ -64,14 +64,21 @@ void	check_room(t_global *lem, char *line)
 
 void	parse_room(t_global *lem, t_room **rooms, char *line)
 {
-	char	**dst;
-	int		i;
+	char		**dst;
+	int			i;
+	long int	num1;
+	long int	num2;
 
+	dst = NULL;
 	check_room(lem, line);
 	if (ft_strchr(line, ' '))
 	{
 		dst = ft_strsplit(line, ' ');
-		if (ft_strchr(dst[0], '-') || !dst[1] || !dst[2] || dst[3])
+		num1 = ft_atoi(dst[1]);
+		num2 = ft_atoi(dst[2]);
+		if (ft_strchr(dst[0], '-') || !dst[1] || !dst[2] || dst[3] ||
+		ft_count_symbol(&line, 1, ft_strlen(line), ' ') != 2 ||
+		(num1 < 0 || num1 > MAX_INT) || (num2 < 0 || num2 > MAX_INT))
 			ft_error(lem, 6);
 		i = 0;
 		while (dst[1][++i] || dst[2][i])

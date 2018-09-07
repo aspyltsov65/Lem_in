@@ -16,17 +16,16 @@
 
 void					put_way(t_global *lem, int i)
 {
-	char	color[9][8] =
-	{
-		{RED},
-		{GREEN},
-		{YELLOW},
-		{BLUE},
-		{MAGENTA},
-		{CYAN},
-		{GRAY},
-		{WHITE},
-		{RESET},
+	static char	color[9][8] = {
+	{RED},
+	{GREEN},
+	{YELLOW},
+	{BLUE},
+	{MAGENTA},
+	{CYAN},
+	{GRAY},
+	{WHITE},
+	{RESET},
 	};
 
 	ft_putstr(color[i % 8]);
@@ -68,12 +67,13 @@ void					found_right_way(t_global *lem, int i, int *k)
 		if (j + 1 < lem->c_way && (lem->ways[j + 1].act != -1) &&
 			lem->ways[j].act != -1 && lem->ways[j].len != lem->ways[j + 1].len)
 			max = (lem->ways[j + 1].len > lem->ways[j].len) ? j + 1 : j;
-		if (max != -1 && lem->ways[max].len  > lem->ants - i++ -1)
+		if (max != -1 && lem->ways[max].len > (lem->ants - i++ - 1))
 			lem->ways[max].act = -1;
 	}
 	j = -1;
 	i = c;
-	while (i < lem->ants && lem->emmet[i].num_room == lem->st && ++j < lem->c_way)
+	while (i < lem->ants && lem->emmet[i].num_room == lem->st
+	&& ++j < lem->c_way)
 		if (lem->ways[j].act != -1 && ++(*k))
 			lem->emmet[i++].road = &lem->ways[j];
 }
@@ -107,7 +107,7 @@ void					choose_way(t_global *lem, int one_way, int j, int i)
 	}
 }
 
-void					go_ants(t_global *lem, int st, int end)
+void					go_ants(t_global *lem)
 {
 	int		i;
 	int		j;
@@ -120,14 +120,13 @@ void					go_ants(t_global *lem, int st, int end)
 		exit(1);
 	}
 	i = -1;
-	while (++i < lem->ants && (lem->emmet[i].num_room = st))
+	while (++i < lem->ants && (lem->emmet[i].num_room = lem->st))
 		lem->emmet[i].iway = 0;
 	j = -1;
+	one_way = 0;
 	while (++j < lem->c_way)
 		if (lem->ways[j].len == 1 && ++one_way)
 			break ;
 	i = 0;
-	lem->st = st;
-	lem->end = end;
 	choose_way(lem, one_way, j, i);
 }

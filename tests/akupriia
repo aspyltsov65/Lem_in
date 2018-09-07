@@ -1,10 +1,11 @@
-12
+21
 ##start
-1 13 3
+#comment
+1 13 3 #check the num of spaces
 2 16 7
 #comment
 3 12 4
-4 14 5
+4 23 5 ##fix int coords
 5 9 9
 6 1 0
 7 4 8
@@ -23,3 +24,5 @@
 7-2
 7-4
 6-5
+
+##fix empty line exec

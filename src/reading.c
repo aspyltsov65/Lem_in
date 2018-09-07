@@ -37,28 +37,33 @@ void	ft_rewrite_array(t_global *lem)
 	}
 }
 
+void	put_file(t_global *lem)
+{
+	t_list *head;
+
+	head = lem->cont_file;
+	while (head)
+	{
+		ft_putendl(head->content);
+		head = head->next;
+	}
+}
+
 int		manage_read(t_global *lem, char *line, int flag)
 {
 	if (line[0] == '\0')
-	{
-<<<<<<< HEAD
-		// ft_putstr("Error: invalid input\n");
-		// exit(1);
 		return (-1);
-=======
-		ft_putstr("Error: invalid input\n");
-		exit(1);
->>>>>>> 98fdb2b6b7ef30dbb5a7fada1f6140ac10fedb01
-	}
 	if (flag == 0 && !ft_strchr(line, '#') && (flag = 1))
 		valid_num_ants(line, lem);
-	else if (ft_strstr(line, "##") && (flag != 2 || flag != 3))
+	else if (ft_strstr(line, "##") && line[0] == '#' &&
+	(flag != 2 || flag != 3))
 		parse_command(lem, line);
-	else if (flag == 1 && ft_strchr(line, ' ') && !ft_strchr(line, '#'))
+	else if (flag == 1 && ft_strchr(line, ' ') && line[0] != '#')
 		parse_room(lem, &lem->l_room, line);
 	else if (flag == 1 && ft_strchr(line, '-') && (flag = 2))
 		ft_mall_matr(lem);
-	if ((flag == 2 || flag == 3) && ft_strchr(line, '-') && (flag = 3))
+	if ((flag == 2 || flag == 3) && ft_strchr(line, '-') &&
+	!ft_strchr(line, '#') && (flag = 3))
 		ft_parse_links(lem, line);
 	return (flag);
 }
@@ -68,36 +73,27 @@ void	read_file(t_global *lem)
 	char	*line;
 	int		flag;
 	int		gnl_result;
+	int		num;
 
 	lem->l_room = NULL;
+	lem->cont_file = NULL;
 	flag = 0;
+	num = 0;
 	while ((gnl_result = get_next_line(0, &line)) > 0)
 	{
-<<<<<<< HEAD
-		if (flag == -1)
+		ft_createlist(&lem->cont_file, line);
+		num = manage_read(lem, line, num);
+		if (num == -1)
 			break ;
-=======
->>>>>>> 98fdb2b6b7ef30dbb5a7fada1f6140ac10fedb01
-		ft_putendl(line);
-		flag = manage_read(lem, line, flag);
 		free(line);
 	}
-	if (gnl_result < 0)
-	{
-		perror("Error");
-		exit(1);
-	}
-	if (gnl_result == 0 && flag != 3)
-		exit(write(1, "Error: invalid input or empty file\n", 36));
+	put_file(lem);
+	check_gnl_result(gnl_result, num, flag);
 	ft_rewrite_array(lem);
-	flag = ft_cheсk_connection(lem);
-<<<<<<< HEAD
-	// printf("flag %d\n", flag);
-=======
->>>>>>> 98fdb2b6b7ef30dbb5a7fada1f6140ac10fedb01
-	if (flag == -1)
-		exit(write(1, "Error: no connection between the start and end\n", 48));
-	bfs(lem, flag);
+	lem->end = ft_cheсk_connection(lem);
+	if (lem->end == -1)
+		exit(ft_printf("{RED}Error: {RESET}START and END not connected\n"));
+	algor(lem);
 }
 
 int		main(void)

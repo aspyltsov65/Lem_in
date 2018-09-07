@@ -15,11 +15,12 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <stdio.h>
-# include "ft_printf/ft_printf.h"
+# include "../ft_printf/ft_printf.h"
 # include "get_next_line.h"
 
+# define MAX_INT	2147483647
 # define RED		"\x1b[31m"
 # define GREEN		"\x1b[32m"
 # define YELLOW		"\x1b[33m"
@@ -77,7 +78,7 @@ typedef struct		s_global
 	int				end;
 }					t_global;
 
-void				check_gnl_result(int gnl_result, int flag);
+void				check_gnl_result(int gnl_result, int num, int flag);
 void				ft_mall_matr(t_global *lem);
 void				valid_num_ants(char	*line, t_global *lem);
 void				parse_command(t_global *lem, char *line);
@@ -87,9 +88,9 @@ int					ft_check_rn(t_room *rooms, char *name, int x, int y);
 void				ft_parse_links(t_global *lem, char *line);
 void				ft_fill_links(t_global *lem, int i);
 int					ft_cheсk_connection(t_global *lem);
-int					create_queue(t_global *lem, int i, t_list *queue);
-void				bfs(t_global *lem, int i);
-void				go_ants(t_global *lem, int st, int end);
+int					create_queue(t_global *lem, int i, t_list *queue, int j);
+void				algor(t_global *lem);
+void				go_ants(t_global *lem);
 void				create_list_room(t_global *lem, t_room **rooms, char **ds);
 void				check_room(t_global *lem, char *line);
 void				valid_links(t_global *lem, char **dst, int *j);

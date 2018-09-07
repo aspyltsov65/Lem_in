@@ -14,9 +14,11 @@
 
 void	valid_num_ants(char *str, t_global *lem)
 {
-	int	i;
+	int			i;
+	long int	num;
 
 	i = 0;
+	num = 0;
 	if (str[i] == '+')
 		i++;
 	if (str[i] == '0')
@@ -24,7 +26,11 @@ void	valid_num_ants(char *str, t_global *lem)
 	while (str[i] && ft_isdigit(str[i]))
 		i++;
 	if (i > 0 && i < 11 && (str[i] == '\0'))
-		lem->ants = ft_atoi(str);
+		num = ft_atoi(str);
+	else
+		ft_error(lem, 1);
+	if (num > 0 && num < MAX_INT)
+		lem->ants = num;
 	else
 		ft_error(lem, 1);
 }
@@ -33,10 +39,14 @@ void	parse_command(t_global *lem, char *line)
 {
 	t_room	*head;
 
-	if (ft_strequ(line, "##start"))
+	if (ft_strequ(line, "##start") && (lem->g_st_end == 0
+	|| lem->g_st_end == -1))
 		lem->g_st_end = 1;
-	if (ft_strequ(line, "##end"))
+	else if (ft_strequ(line, "##end") && (lem->g_st_end == 0
+	|| lem->g_st_end == 1))
 		lem->g_st_end = -1;
+	else if (ft_strequ(line, "##start") || ft_strequ(line, "##start"))
+		ft_error(lem, 3);
 	head = lem->l_room;
 	while (head)
 	{
@@ -61,7 +71,7 @@ void	ft_error(t_global *lem, int error)
 	else if (error == 4)
 		ft_putendl(" room will never start with the character L");
 	else if (error == 5)
-		ft_putendl(" must be only one spase between room and coord");
+		ft_putendl(" must be only one space between room and coord");
 	else if (error == 6)
 		ft_putendl("invalid input for room");
 	else if (error == 7)
