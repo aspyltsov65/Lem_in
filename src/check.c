@@ -21,7 +21,7 @@ void		check_gnl_result(int gnl_result, int num, int flag)
 		perror("Error");
 		exit(1);
 	}
-	if (gnl_result == 0 && num != 3)
+	if (gnl_result == 0 && num != 2)
 		exit(ft_printf("\n{RED}Error: {RESET} invalid input or empty file\n"));
 }
 

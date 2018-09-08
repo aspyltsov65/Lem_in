@@ -49,23 +49,31 @@ void	put_file(t_global *lem)
 	}
 }
 
-int		manage_read(t_global *lem, char *line, int flag)
+int		manage_read(t_global *lem, char *line, int *flag)
 {
 	if (line[0] == '\0')
 		return (-1);
-	if (flag == 0 && !ft_strchr(line, '#') && (flag = 1))
+	if ((*flag) == 0 && !ft_strchr(line, '#') && ((*flag) = 1))
 		valid_num_ants(line, lem);
-	else if (ft_strstr(line, "##") && line[0] == '#' &&
-	(flag != 2 || flag != 3))
+	else if (ft_strstr(line, "##") && line[0] == '#' && ((*flag) != 2))
 		parse_command(lem, line);
-	else if (flag == 1 && ft_strchr(line, ' ') && line[0] != '#')
+	else if ((*flag) == 1 && ft_strchr(line, ' ') && line[0] != '#')
 		parse_room(lem, &lem->l_room, line);
-	else if (flag == 1 && ft_strchr(line, '-') && (flag = 2))
-		ft_mall_matr(lem);
-	if ((flag == 2 || flag == 3) && ft_strchr(line, '-') &&
-	!ft_strchr(line, '#') && (flag = 3))
+	else if (((*flag) == 1 || (*flag) == 2) && ft_strchr(line, '-')
+	&& !ft_strchr(line, '#'))
+	{
+		if ((*flag) == 1 && ((*flag) = 2))
+			ft_mall_matr(lem);
 		ft_parse_links(lem, line);
-	return (flag);
+	}
+	else if (line[0] == '#')
+		;
+	else
+	{
+		put_file(lem);
+		exit(ft_printf("\n{RED}Error: {RESET}invalid input\n"));
+	}
+	return ((*flag));
 }
 
 void	read_file(t_global *lem)
@@ -82,7 +90,7 @@ void	read_file(t_global *lem)
 	while ((gnl_result = get_next_line(0, &line)) > 0)
 	{
 		ft_createlist(&lem->cont_file, line);
-		num = manage_read(lem, line, num);
+		num = manage_read(lem, line, &flag);
 		if (num == -1)
 			break ;
 		free(line);
@@ -92,7 +100,7 @@ void	read_file(t_global *lem)
 	ft_rewrite_array(lem);
 	lem->end = ft_cheсk_connection(lem);
 	if (lem->end == -1)
-		exit(ft_printf("{RED}Error: {RESET}START and END not connected\n"));
+		exit(ft_printf("\n{RED}Error: {RESET}START and END not connected\n"));
 	algor(lem);
 }
 

@@ -6,42 +6,61 @@
 #    By: apyltsov <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/07 17:31:40 by apyltsov          #+#    #+#              #
-#    Updated: 2018/09/07 17:31:43 by apyltsov         ###   ########.fr        #
+#    Updated: 2018/09/08 13:53:40 by apyltsov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 	= lem-in
-LIBFTDIR := libft/
+
+OBJ_DIR = ./obj/
+INC_DIR = ./inc/
+SRC_DIR = ./src/
+
+LIBFTDIR := ./libft/
+PRINTF_DIR = ./ft_printf/
+
 LIBFT = $(LIBFTDIR)/libft.a
-PRINTF = ft_printf
-SRCFILE = src/*.c
-OBJECTS = $(addprefix ./obj/, $(SRCFILE:.c=./obj.o))
+PRINTF = $(PRINTF_DIR)/libftprintf.a
+
+SRCFILE = algor.c get_next_line.c go_ants.c parse_link.c reading.c check.c parse_room.c validation.c
+
+OBJECTS = $(addprefix $(OBJ_DIR), $(SRCFILE:.c=.o))
+
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
+HDR_FLAGS = -I $(INC_DIR)
 
 all: $(NAME)
 
-$(NAME): obj $(OBJECTS)
+$(NAME): $(LIBFT) $(PRINTF) $(OBJECTS)
+	@$(CC) $(FLAGS) -o $(NAME) $(OBJECTS) $(LIBFT) $(PRINTF)
+
+$(OBJECTS): | $(OBJ_DIR)
+
+$(OBJ_DIR):
+	mkdir $(OBJ_DIR)
+
+$(OBJ_DIR)%.o: %.c
+	@$(CC) -c $< -o $@ $(FLAGS) $(HDR_FLAGS)
+
+$(LIBFT):
 	@make -C $(LIBFTDIR)
-	@make -C $(PRINTF)
-	@$(CC) $(FLAGS) -o $(NAME) $(SRCFILE) $(LIBFT) $(PRINTF)/libftprintf.a
 
-obj:
-	mkdir -p obj/
-
-obj/%.o: ./%.c | obj
-	$(CC) $(FLAGS) -c $< -o $@
+$(PRINTF):
+	@make -C $(PRINTF_DIR)
 
 clean:
-	@rm -rf obj/
+	@rm -rf $(OBJ_DIR)
 	@make clean -C $(LIBFTDIR)
-	@make clean -C $(PRINTF)
+	@make clean -C $(PRINTF_DIR)
 
 fclean: clean
 	@make fclean -C $(LIBFTDIR)
-	@make fclean -C $(PRINTF)
+	@make fclean -C $(PRINTF_DIR)
 	@rm -f $(NAME)
 
 re: fclean all
+
+vpath %.c $(SRC_DIR)
 
 .PHONY: all clean fclean re

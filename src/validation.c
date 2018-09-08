@@ -29,7 +29,7 @@ void	valid_num_ants(char *str, t_global *lem)
 		num = ft_atoi(str);
 	else
 		ft_error(lem, 1);
-	if (num > 0 && num < MAX_INT)
+	if (num > 0 && num <= MAX_INT)
 		lem->ants = num;
 	else
 		ft_error(lem, 1);
@@ -39,13 +39,11 @@ void	parse_command(t_global *lem, char *line)
 {
 	t_room	*head;
 
-	if (ft_strequ(line, "##start") && (lem->g_st_end == 0
-	|| lem->g_st_end == -1))
+	if (ft_strequ(line, "##start") && lem->g_st_end == 0)
 		lem->g_st_end = 1;
-	else if (ft_strequ(line, "##end") && (lem->g_st_end == 0
-	|| lem->g_st_end == 1))
+	else if (ft_strequ(line, "##end") && lem->g_st_end == 0)
 		lem->g_st_end = -1;
-	else if (ft_strequ(line, "##start") || ft_strequ(line, "##start"))
+	else if (ft_strequ(line, "##start") || ft_strequ(line, "##end"))
 		ft_error(lem, 3);
 	head = lem->l_room;
 	while (head)

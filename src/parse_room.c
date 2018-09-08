@@ -57,6 +57,8 @@ void	check_room(t_global *lem, char *line)
 		if (line[++i] && !ft_isdigit(line[i]) && line[i] != '-'
 		&& line[i] != '+')
 			ft_error(lem, 6);
+		if ((line[i] == '-' || line[i] == '+') && !ft_isdigit(line[i] + 1))
+			ft_error(lem, 6);
 	}
 	if (i < 5)
 		ft_error(lem, 6);
