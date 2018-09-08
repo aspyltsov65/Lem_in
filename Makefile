@@ -17,7 +17,7 @@ INC_DIR = ./inc/
 SRC_DIR = ./src/
 
 LIBFTDIR := ./libft/
-PRINTF_DIR = ./ft_printf/
+PRINTF_DIR = ./ft_printf_ap/
 
 LIBFT = $(LIBFTDIR)/libft.a
 PRINTF = $(PRINTF_DIR)/libftprintf.a
